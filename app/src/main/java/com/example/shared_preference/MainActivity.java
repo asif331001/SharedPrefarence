@@ -1,70 +1,87 @@
 package com.example.shared_preference;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
-    private TextView scoreTextView;
-    private Button increaseButton, decreaseButton;
+    private LinearLayout linearLayout;
 
-    private int score = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        scoreTextView = (TextView) findViewById(R.id.scoreTextViewId);
-        increaseButton = (Button) findViewById(R.id.increaseButtonId);
-        decreaseButton = (Button) findViewById(R.id.decreaseButtonId);
+        linearLayout = (LinearLayout) findViewById(R.id.linearLayoutId);
 
-        if (loadScore()!=0) {
-            scoreTextView.setText("Score: "+loadScore());
+        if (loadColor()!=getResources().getColor(com.google.android.material.R.color.design_default_color_on_primary)){
+
+            linearLayout.setBackgroundColor(loadColor());
         }
 
-        increaseButton.setOnClickListener(this);
-        decreaseButton.setOnClickListener(this);
+
     }
 
     @Override
-    public void onClick(View view) {
+    public boolean onCreateOptionsMenu(Menu menu) {
 
-        if (view.getId()==R.id.increaseButtonId) {
-
-            score = score + 10;
-            scoreTextView.setText("Score: "+score);
-            saveScore(score);
-
-        }
-        if (view.getId()==R.id.decreaseButtonId){
-
-            score = score - 10;
-            scoreTextView.setText("Score: "+score);
-            saveScore(score);
-        }
+        getMenuInflater().inflate(R.menu.menu_layout,menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
-    private void saveScore (int score){
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        SharedPreferences sharedPreferences = getSharedPreferences("scoreKey", Context.MODE_PRIVATE);
+        if (item.getItemId()==R.id.redMenuId){
+
+            linearLayout.setBackgroundColor(getResources().getColor(R.color.red));
+            storeColor(getResources().getColor(R.color.red));
+        }
+           if (item.getItemId()==R.id.greenMenuId){
+
+            linearLayout.setBackgroundColor(getResources().getColor(R.color.green));
+            storeColor(getResources().getColor(R.color.green));
+        }
+           if (item.getItemId()==R.id.yellowMenuId){
+
+            linearLayout.setBackgroundColor(getResources().getColor(R.color.yellow));
+            storeColor(getResources().getColor(R.color.yellow));
+        }
+           if (item.getItemId()==R.id.blueMenuId){
+
+            linearLayout.setBackgroundColor(getResources().getColor(R.color.blue));
+            storeColor(getResources().getColor(R.color.blue));
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void storeColor (int color){
+
+        SharedPreferences sharedPreferences = getSharedPreferences("bgColor",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("lastScore",score);
+        editor.putInt("myColor", color);
         editor.commit();
+
     }
 
-    private int loadScore(){
-
-        SharedPreferences sharedPreferences = getSharedPreferences("scoreKey", Context.MODE_PRIVATE);
-        int score = sharedPreferences.getInt("lastScore",0);
-        return score;
-    }
+    private int loadColor(){
+        SharedPreferences sharedPreferences = getSharedPreferences("bgColor",Context.MODE_PRIVATE);
+        int selectedColor = sharedPreferences.getInt("myColor", getResources().getColor(com.google.android.material.R.color.design_default_color_on_primary));
+        return selectedColor;
+            }
 }
