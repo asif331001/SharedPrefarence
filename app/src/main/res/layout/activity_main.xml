@@ -5,76 +5,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
     android:background="@drawable/gradient_bg"
     tools:context=".MainActivity">
 
-<EditText
-    android:drawableLeft="@drawable/ic_action_name"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/usernameEdittextId"
-    android:hint="Enter your username"
-    android:textSize="20sp"
-    android:textAlignment="center"
-    android:layout_margin="20dp"
-    />
-<EditText
-    android:drawableLeft="@drawable/ic_action_lock"
-    android:inputType="textPassword"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/passwordEdittextId"
-    android:hint="Enter your password"
-    android:textSize="20sp"
-    android:textAlignment="center"
-    android:layout_margin="20dp"
-    />
-
-
-    <LinearLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:layout_marginRight="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SAVE"
-            android:textSize="17sp"
-            android:textAlignment="center"
-            android:textStyle="bold"
-            android:id="@+id/saveButtonId"
-            android:backgroundTint="@color/black"
-            android:textColor="@color/white"
-            />
-
-
-        <Button
-            android:layout_marginLeft="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Load"
-            android:textSize="17sp"
-            android:textAlignment="center"
-            android:textStyle="bold"
-            android:id="@+id/loadButtonId"
-            android:backgroundTint="@color/black"
-            android:textColor="@color/white"
-            />
-
-
-    </LinearLayout>
 
     <TextView
+        android:textColor="#000000"
+        android:text="Score: 0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/detailsTextViewId"
+        android:id="@+id/scoreTextViewId"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textAlignment="center"
         android:layout_marginTop="20dp"
         />
+
+
+        <Button
+            android:layout_margin="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="increase"
+            android:textSize="17sp"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:id="@+id/increaseButtonId"
+            android:backgroundTint="#1C004E"
+            android:textColor="@color/white"
+            />
+
+
+        <Button
+           android:layout_margin="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="decrease"
+            android:textSize="17sp"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:id="@+id/decreaseButtonId"
+            android:backgroundTint="#1C004E"
+            android:textColor="@color/white"
+            />
+
+
+
 
 
 

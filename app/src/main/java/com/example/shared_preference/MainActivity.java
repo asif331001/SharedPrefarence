@@ -13,69 +13,58 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView detailsTextView;
-    private EditText usernameEditText, passwordEditText;
-    private Button saveButton, loadButton;
+    private TextView scoreTextView;
+    private Button increaseButton, decreaseButton;
+
+    private int score = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        detailsTextView = (TextView) findViewById(R.id.detailsTextViewId);
-        usernameEditText = (EditText) findViewById(R.id.usernameEdittextId);
-        passwordEditText = (EditText) findViewById(R.id.passwordEdittextId);
-        saveButton = (Button) findViewById(R.id.saveButtonId);
-        loadButton = (Button) findViewById(R.id.loadButtonId);
+        scoreTextView = (TextView) findViewById(R.id.scoreTextViewId);
+        increaseButton = (Button) findViewById(R.id.increaseButtonId);
+        decreaseButton = (Button) findViewById(R.id.decreaseButtonId);
 
-        saveButton.setOnClickListener(this);
-        loadButton.setOnClickListener(this);
+        if (loadScore()!=0) {
+            scoreTextView.setText("Score: "+loadScore());
+        }
+
+        increaseButton.setOnClickListener(this);
+        decreaseButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
 
-        if (view.getId()==R.id.saveButtonId){
+        if (view.getId()==R.id.increaseButtonId) {
 
-            //get data from user
-            String username = usernameEditText.getText().toString();
-            String password = passwordEditText.getText().toString();
-
-            if (username.equals("") && password.equals("")) {
-
-                Toast.makeText(getApplicationContext(),"Please enter some data", Toast.LENGTH_SHORT).show();
-            }
-            else {
-
-                //writing data
-                SharedPreferences sharedPreferences = getSharedPreferences("userDetails", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("usernameKey", username);
-                editor.putString("passwordKey",password);
-                editor.commit();
-
-                usernameEditText.setText("");
-                passwordEditText.setText("");
-
-                Toast.makeText(getApplicationContext(),"Data is stored successfully", Toast.LENGTH_SHORT).show();
-
-            }
+            score = score + 10;
+            scoreTextView.setText("Score: "+score);
+            saveScore(score);
 
         }
+        if (view.getId()==R.id.decreaseButtonId){
 
-     if (view.getId()==R.id.loadButtonId){
-
-         //to read data
-         SharedPreferences sharedPreferences = getSharedPreferences("userDetails", Context.MODE_PRIVATE);
-
-         if (sharedPreferences.contains("usernameKey") && sharedPreferences.contains("passwordKey"));{
-
-             String username = sharedPreferences.getString("usernameKey","Data not found");
-             String password = sharedPreferences.getString("passwordKey","Data not found");
-
-             detailsTextView.setText(username+"\n"+password);
-         }
+            score = score - 10;
+            scoreTextView.setText("Score: "+score);
+            saveScore(score);
         }
+    }
 
+    private void saveScore (int score){
+
+        SharedPreferences sharedPreferences = getSharedPreferences("scoreKey", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("lastScore",score);
+        editor.commit();
+    }
+
+    private int loadScore(){
+
+        SharedPreferences sharedPreferences = getSharedPreferences("scoreKey", Context.MODE_PRIVATE);
+        int score = sharedPreferences.getInt("lastScore",0);
+        return score;
     }
 }
